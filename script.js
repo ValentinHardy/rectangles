@@ -94,21 +94,25 @@ document.addEventListener('DOMContentLoaded', () => {
     // Find the two rectangles with the closest matching areas
     function findClosestPairByArea(rects) {
         let closestPair = [rects[0], rects[1]];
+        // Track the smallest difference in area. Infinity intialization ensures the first comparison sets a new minimum.
         let minAreaDiff = Infinity;
 
-        // Compare each pair of rectangles to find the smallest area difference
         rects.forEach((rect1, index1) => {
+            // `slice(index1 + 1)` ensures we only compare each pair once and avoid comparing a rectangle with itself.
             rects.slice(index1 + 1).forEach(rect2 => {
+                // Calculate the absolute difference in area between two rectangles.
                 const areaDiff = Math.abs(getArea(rect1) - getArea(rect2));
+
                 if (areaDiff < minAreaDiff) {
-                    minAreaDiff = areaDiff;
-                    closestPair = [rect1, rect2];
+                    minAreaDiff = areaDiff; // Update with new smallest difference.
+                    closestPair = [rect1, rect2]; 
                 }
             });
         });
 
         return [closestPair, minAreaDiff];
     }
+
 
     function getArea(rect) {
         return rect.offsetWidth * rect.offsetHeight;
